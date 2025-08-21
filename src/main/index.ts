@@ -52,6 +52,26 @@ app.whenReady().then(() => {
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
 
+  ipcMain.handle('ws', (e, msg) => {
+    const foodsWindow = new BrowserWindow({
+      width: 500,
+      height: 300,
+      show: false,
+      autoHideMenuBar: true,
+      ...(process.platform === 'linux' ? { icon } : {}),
+      webPreferences: {
+        preload: join(__dirname, '../preload/index.js'),
+        sandbox: false
+      }
+    })
+
+    foodsWindow.on('ready-to-show', () => {
+      foodsWindow.show()
+    })
+
+    foodsWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/#/list/foods')
+  })
+
   createWindow()
 
   app.on('activate', function () {
