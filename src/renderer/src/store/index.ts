@@ -1,21 +1,12 @@
 import { defineStore } from "pinia"
+import { useUserStore } from './useUserStore'
 
 export const useStore = defineStore('counter', {
   state: () => {
     return {
-      count: 20
+      user: useUserStore() // 用户模块
     }
   },
-  getters: {
-
-  },
-  actions: {
-    changeCount(val) {
-      if (val === 'add') {
-        this.count ++
-      } else {
-        this.count --
-      }
-    }
-  }
+  getters: {},
+  actions: {}
 })
